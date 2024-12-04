@@ -1,0 +1,56 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+# Cargar el dataset
+df = pd.read_csv('animia.csv', encoding='latin-1', delimiter=';')
+
+# Eliminar filas con valores faltantes
+df = df.dropna()
+
+# Ver los primeros registros del dataset
+print("Primeros registros del dataset:")
+print(df.head())
+
+# Mostrar las columnas disponibles
+print("\nColumnas del dataset:")
+print(df.columns)
+
+# Mostrar información general del dataset
+print("\nInformación general del dataset:")
+print(df.info())
+
+# Preprocesamiento de datos
+# Convertir columnas categóricas en variables numéricas si es necesario
+df = pd.get_dummies(df, drop_first=True)
+
+# Seleccionar las características y la variable objetivo
+X = df.drop('CASOS', axis=1)  # Características
+y = df['CASOS']  # Variable objetivo
+
+# Dividir el dataset en conjuntos de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Escalar los datos (es importante para el rendimiento de KNN)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Inicializar el clasificador KNN
+knn = KNeighborsClassifier(n_neighbors=5)
+
+# Entrenar el modelo
+knn.fit(X_train_scaled, y_train)
+
+# Realizar predicciones
+y_pred = knn.predict(X_test_scaled)
+
+# Evaluar el modelo
+accuracy = accuracy_score(y_test, y_pred)
+print("\nPrecisión del modelo KNN: {:.2f}%".format(accuracy * 100))
+
+# Opcional: Mostrar los primeros resultados de las predicciones
+print("\nPrimeras predicciones:")
+print(y_pred[:10])
