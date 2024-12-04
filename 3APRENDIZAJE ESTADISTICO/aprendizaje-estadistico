@@ -1,0 +1,41 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Cargar el dataset
+df = pd.read_csv('animia.csv', encoding='latin-1', delimiter=';')
+
+# Ver los primeros registros del dataset
+print("Primeros registros del dataset:")
+print(df.head())
+
+# Mostrar los nombres de las columnas
+print("\nNombres de las columnas:")
+print(df.columns)
+
+# Mostrar información general del dataset
+print("\nInformación general del dataset:")
+print(df.info())
+
+# Estadísticas descriptivas del dataset
+print("\nEstadísticas descriptivas del dataset:")
+print(df.describe())
+
+# Verificar valores nulos
+print("\nValores nulos en el dataset:")
+print(df.isnull().sum())
+
+# Filtrar columnas numéricas para calcular la matriz de correlación
+numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+print("\nColumnas numéricas para la matriz de correlación:", numeric_columns)
+
+# Calcular y mostrar la matriz de correlación
+corr = df[numeric_columns].corr()
+print("\nMatriz de correlación:")
+print(corr)
+
+# Visualizar y guardar la matriz de correlación
+sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Matriz de Correlación')
+plt.savefig('correlation_heatmap.png')  # Guardar la imagen
+plt.show()

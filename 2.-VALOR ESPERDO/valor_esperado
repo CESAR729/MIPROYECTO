@@ -1,0 +1,19 @@
+import pandas as pd
+
+# Cargar el dataset
+df = pd.read_csv('animia.csv', encoding='latin-1', delimiter=';')
+
+# Ver los primeros registros, nombres de columnas e información general del dataset
+print("Primeros registros:")
+print(df.head())
+print("\nNombres de columnas:")
+print(df.columns)
+print("\nInformación general del dataset:")
+print(df.info())
+
+# Calcular el valor esperado de una columna (por ejemplo, 'CASOS')
+if 'CASOS' in df.columns:
+    valor_esperado = df['CASOS'].mean()
+    print(f"\nValor esperado de 'CASOS': {valor_esperado:.2f}")
+else:
+    print("\nLa columna 'CASOS' no está presente en el dataset.")
