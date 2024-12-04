@@ -1,0 +1,31 @@
+import pandas as pd
+
+# Cargar el dataset
+df = pd.read_csv('animia.csv', encoding='latin-1', delimiter=';')
+
+# Ver los primeros registros del dataset
+print("Primeros registros del dataset:")
+print(df.head())
+
+# Mostrar las columnas disponibles
+print("\nColumnas del dataset:")
+print(df.columns)
+
+# Mostrar información general del dataset
+print("\nInformación general del dataset:")
+print(df.info())
+
+# Clasificar los casos en una nueva columna 'Clasificación'
+df['Clasificación'] = df['CASOS'].apply(lambda x: 'Alto' if x > 10 else 'Bajo')
+
+# Calcular el valor esperado condicional para las dos clasificaciones
+valor_esperado_alto = df[df['Clasificación'] == 'Alto']['CASOS'].mean()
+valor_esperado_bajo = df[df['Clasificación'] == 'Bajo']['CASOS'].mean()
+
+# Mostrar los resultados
+print("\nValor esperado para la clasificación 'Alto':", valor_esperado_alto)
+print("Valor esperado para la clasificación 'Bajo':", valor_esperado_bajo)
+
+# Guardar el dataset modificado
+df.to_csv('animia_modificado.csv', index=False, encoding='latin-1', sep=';')
+print("\nEl dataset modificado se ha guardado como 'animia_modificado.csv'.")
