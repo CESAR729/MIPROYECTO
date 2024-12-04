@@ -1,0 +1,29 @@
+import pandas as pd
+import os
+
+file_path = 'animia.csv'
+
+try:
+    # Comprobar si el archivo existe
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"El archivo no fue encontrado: {file_path}")
+
+    # Cargar el dataset
+    df = pd.read_csv(file_path, encoding='latin-1', delimiter=';')
+
+    # Ver los primeros registros
+    print("Primeros registros del dataset:")
+    print(df.head())
+
+    # Mostrar los nombres de las columnas
+    print("\nNombres de las columnas:")
+    print(df.columns)
+
+    # Mostrar información general del dataset
+    print("\nInformación general del dataset:")
+    print(df.info())
+
+except FileNotFoundError as e:
+    print(e)
+except Exception as e:
+    print("Ocurrió un error:", e)
