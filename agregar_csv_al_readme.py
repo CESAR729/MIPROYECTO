@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Cargar el dataset
-df = pd.read_csv('animia.csv', encoding='latin-1', delimiter=';')
+df = pd.read_csv('Chichero.csv', encoding='latin-1', delimiter=';')
 
 # Ver los primeros registros del dataset
 print(df.head())
