@@ -1,53 +1,35 @@
-Primeros registros:
-  DEPARTAMENTO PROVINCIA DISTRITO                        RED      MICRORED  \
-0        CUSCO       NaN      NaN  CANAS - CANCHIS - ESPINAR  TECHO OBRERO   
-1        CUSCO       NaN      NaN                  CUSCO SUR    HUANCARANI   
-2        CUSCO   ACOMAYO  ACOMAYO                  CUSCO SUR       ACOMAYO   
-3        CUSCO   ACOMAYO  ACOMAYO                  CUSCO SUR       ACOMAYO   
-4        CUSCO   ACOMAYO  ACOMAYO                  CUSCO SUR       ACOMAYO   
+# Clasificación de Regiones por Temporada usando SVM
 
-   COD_EESS             EESS  EDAD  ANIO  CASOS  NORMAL  TOTAL  FECHA_CORTE  \
-0    2390.0       P.S. CCUYO     4  2017      0       1      1     20230630   
-1       NaN  C.S. HUANCARANI    41  2010      0       1      1     20230630   
-2       NaN     C.S. ACOMAYO     5  2010      1       0      1     20230630   
-3       NaN     C.S. ACOMAYO     5  2013      5       1      6     20230630   
-4       NaN     C.S. ACOMAYO     6  2010      3      21     24     20230630   
+Este proyecto utiliza un conjunto de datos aleatorio con cinco características (columnas) para clasificar regiones en tres categorías de temporada: `bajo`, `medio`, y `alto`. El modelo implementado es un **Máquina de Soporte Vectorial (SVM)** con un kernel lineal.
 
-    UBIGEO  
-0      NaN  
-1      NaN  
-2  80201.0  
-3  80201.0  
-4  80201.0  
+## Descripción del Dataset
 
-Nombres de columnas:
-Index(['DEPARTAMENTO', 'PROVINCIA', 'DISTRITO', 'RED', 'MICRORED', 'COD_EESS',
-       'EESS', 'EDAD', 'ANIO', 'CASOS', 'NORMAL', 'TOTAL', 'FECHA_CORTE',
-       'UBIGEO'],
-      dtype='object')
+El dataset tiene 1000 muestras y 7 columnas, que incluyen cinco características numéricas (`columna1` a `columna5`), la columna objetivo (`columna_objetivo`) que es una etiqueta de clasificación, y una columna adicional (`temporada`) que representa la clasificación de la temporada de cada región:
 
-Información general del dataset:
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 83412 entries, 0 to 83411
-Data columns (total 14 columns):
- #   Column        Non-Null Count  Dtype  
----  ------        --------------  -----  
- 0   DEPARTAMENTO  83412 non-null  object 
- 1   PROVINCIA     83400 non-null  object 
- 2   DISTRITO      83383 non-null  object 
- 3   RED           83412 non-null  object 
- 4   MICRORED      83412 non-null  object 
- 5   COD_EESS      56624 non-null  float64
- 6   EESS          83412 non-null  object 
- 7   EDAD          83412 non-null  int64  
- 8   ANIO          83412 non-null  int64  
- 9   CASOS         83412 non-null  int64  
- 10  NORMAL        83412 non-null  int64  
- 11  TOTAL         83412 non-null  int64  
- 12  FECHA_CORTE   83412 non-null  int64  
- 13  UBIGEO        83383 non-null  float64
-dtypes: float64(2), int64(6), object(6)
-memory usage: 8.9+ MB
-None
+| columna1  | columna2  | columna3  | columna4  | columna5  | columna_objetivo | temporada |
+|-----------|-----------|-----------|-----------|-----------|------------------|-----------|
+| 0.789678  | 0.875056  | -0.524088 | 1.108592  | -1.402916 | 0                | medio     |
+| -1.686931 | 3.324227  | -0.190503 | 3.101080  | -3.083091 | 2                | bajo      |
+| -1.070137 | 2.950171  | 0.508269  | 2.853285  | -2.940819 | 2                | bajo      |
+| 0.103687  | -1.319036 | -1.352670 | -1.364504 | 1.494486  | 1                | medio     |
+| -1.309502 | 1.750843  | -0.557423 | 1.533576  | -1.422048 | 2                | bajo      |
 
-Valor esperado de 'CASOS': 1.85
+- `columna1` a `columna5`: Características numéricas utilizadas para la clasificación.
+- `columna_objetivo`: Etiquetas de clase para entrenamiento del modelo (tres clases posibles).
+- `temporada`: Categoría asignada que representa la clasificación de la región por temporada (`bajo`, `medio`, `alto`).
+
+## Preprocesamiento
+
+- **Estandarización**: Las características numéricas se estandarizan para mejorar el rendimiento del modelo SVM.
+- **Clasificación de Temporada**: Utilizando la columna `columna1`, se crea una categoría de temporada para cada registro (`alto`, `medio`, `bajo`), basándose en un rango de valores.
+
+## Modelo de Clasificación
+
+Se utilizó un **SVM con kernel lineal** para clasificar las regiones en las categorías de temporada. El modelo se entrenó utilizando el 80% de los datos y se probó con el 20% restante.
+
+## Resultados
+
+### Reporte de Clasificación
+
+El reporte de clasificación muestra las métricas de desempeño del modelo (precisión, recall y F1-score) para cada clase de temporada:
+
